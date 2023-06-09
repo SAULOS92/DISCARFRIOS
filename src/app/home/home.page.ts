@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { UsersService } from "../servicios/firebase/users.service";
+import { LoadingController } from '@ionic/angular';
 
 
 
@@ -18,7 +19,9 @@ export class HomePage {
   datos={};
   user_mob='';
   pass_mob='';
+  loading: any;
   constructor(public authService: UsersService, public router:Router, public toast:ToastController, 
+    private loadingController: LoadingController
     ) 
     {
       
@@ -26,12 +29,15 @@ export class HomePage {
     }
     ionViewWillEnter(){ }
       
-    logIn(email: any, password: any) {
+    async logIn(email: any, password: any) {
+      this.presentLoading();
       this.authService.SignIn(email, password)
         .then((res) => {
            this.verifyRegister();
+           this.dismissLoading()
         }).catch((error) => {
-          this.presentToast(error.message);          
+          this.presentToast(error.message);   
+          this.dismissLoading()       
         })
     }
     async presentToast(message1: any) {
@@ -43,6 +49,7 @@ export class HomePage {
     }
     verifyRegister()
     {  
+          this.presentLoading();
           //validar que el usuario este autenticado
           this.authService.ngFireAuth.authState.subscribe((user) => {
             if (user) {//esta autenticado
@@ -62,6 +69,19 @@ export class HomePage {
               localStorage.setItem('user', 'null');
               localStorage.setItem('number', 'null');
             }
+            this.dismissLoading()
           });
     }//fin de funcion verificar usuario
+    async presentLoading() {
+      this.loading = await this.loadingController.create({
+        message: 'Iniciando sesión...', // Puedes personalizar el mensaje del loader
+        translucent: true, // Permite que el fondo sea semi-transparente
+        spinner: 'crescent' // Elige el estilo del spinner (puedes utilizar 'lines', 'circles', 'crescent', 'dots' o 'lines-small')
+      });
+      await this.loading.present();
+    }
+    
+    async dismissLoading() {
+      await this.loading.dismiss();
+    }
 }
