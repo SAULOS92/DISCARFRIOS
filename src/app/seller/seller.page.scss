@@ -1,0 +1,29 @@
+ion-header {
+    background-color: #3880ff;
+    color: #fff;
+  }
+  
+  ion-item {
+    margin-top: 30px;
+  }
+  
+  ion-label {
+    font-weight: bold;
+  }
+  
+  ion-input {
+    border: 2px solid #3880ff;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 18px;
+  }
+  
+  ion-button {
+    margin-top: 30px;
+    --background: #3880ff;
+    --border-radius: 5px;
+    --color: #fff;
+    --padding-start: 20px;
+    --padding-end: 20px;
+  }
+  

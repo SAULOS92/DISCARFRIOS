@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start"><ion-back-button defaultHref="rutero"></ion-back-button> </ion-buttons>
+    <ion-title text-center>
+      Rutero por Dia
+    </ion-title>
+  
+  </ion-toolbar>
+  
+</ion-header>
+
+<ion-content text-center>
+
+  <label *ngIf='sinresult'><h5 text-center>Sin Resultados</h5></label>
+  <img  *ngIf='sinresult' src="./assets/shapes.svg">
+    <ion-list>
+      <ion-item *ngFor="let item of items" style="width: 100%">
+      
+        <ion-card [routerLink]="['/hour', item.Codigo]" style="width: 100%">
+          <ion-card-content>
+          <strong><h5 style="font-size: smaller">{{item.Codigo}} - {{item.Cliente}}</h5>
+          <h3>{{item.RZ}}</h3>        
+          <h3>{{item.Direccion}} - {{item.Barrio}}</h3></strong>
+          <h3>{{item.OrdenDia}}</h3>       
+          
+        </ion-card-content></ion-card>
+      </ion-item>      
+    </ion-list>
+  </ion-content>

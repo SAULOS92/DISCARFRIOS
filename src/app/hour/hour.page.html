@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start"><ion-back-button defaultHref="rutero-dia"></ion-back-button> </ion-buttons>
+    <ion-title >
+      Ingreso de Horario del cliente
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    
+    <ion-card-content>
+      <form #hourForm="ngForm" (ngSubmit)="onSubmit()">
+        <ion-item>
+          <ion-label>¿Jornada continua?</ion-label>
+          <ion-checkbox name="isContinuous" [(ngModel)]="isContinuous" ></ion-checkbox>
+        </ion-item>
+        <ion-item *ngIf="isContinuous">
+          <ion-label position="floating">Apertura</ion-label>
+          <ion-input type="time" name="openingTime" [(ngModel)]="openingTime" ></ion-input>
+        </ion-item>
+        <ion-item *ngIf="isContinuous">
+          <ion-label position="floating">Cierre</ion-label>
+          <ion-input type="time" name="closingTime" [(ngModel)]="closingTime"></ion-input>
+        </ion-item>
+        
+        <ion-item *ngIf="isContinuous">
+          <ion-label>Horario continuo</ion-label>
+        </ion-item>
+        <ion-item *ngIf="!isContinuous">
+          <ion-label position="floating">Apertura turno mañana</ion-label>
+          <ion-input type="time" name="morningOpeningTime" [(ngModel)]="morningOpeningTime"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="!isContinuous">
+          <ion-label position="floating">Cierre turno mañana</ion-label>
+          <ion-input type="time" name="morningClosingTime" [(ngModel)]="morningClosingTime"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="!isContinuous">
+          <ion-label position="floating">Apertura turno tarde</ion-label>
+          <ion-input type="time" name="afternoonOpeningTime" [(ngModel)]="afternoonOpeningTime"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="!isContinuous">
+          <ion-label position="floating">Cierre turno tarde</ion-label>
+          <ion-input type="time" name="afternoonClosingTime" [(ngModel)]="afternoonClosingTime"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Telefono</ion-label>
+          <ion-input type="text" name="telefono" [(ngModel)]="telefono"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Telefono2</ion-label>
+          <ion-input type="text" name="telefono2" [(ngModel)]="telefono2"></ion-input>
+        </ion-item>
+        <ion-button type="submit" expand="full">Guardar</ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+

@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar color="primary">
+      <ion-buttons slot="start"><ion-back-button defaultHref="home"></ion-back-button> </ion-buttons>
+         
+      <ion-title>Importar Rutero</ion-title>
+      </ion-toolbar> 
+</ion-header>
+
+<!-- Grupo actualización -->
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>Actualización de datos</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <div padding>
+      <ion-button (click)="exportExcel()" type="submit" expand="full">Exportar a Excel</ion-button>
+      <ion-button type="submit" expand="full" (click)="eliminarDocumentos()">Eliminar Documentos</ion-button>
+    </div>
+    <form id="file-upload-form" class="uploader">
+      <input id="file-upload" type="file" (change)="fileUpload($event)" name="fileUpload" accept=".xls, .xlsx" />
+    </form>
+  </ion-card-content>
+</ion-card>
+
+<!-- Grupo orden rutero -->
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>Orden Rutero</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <div padding>
+      <ion-button (click)="exportExcelOrden()" type="submit" expand="full">Exportar a Excel</ion-button>
+      <ion-button type="submit" expand="full" (click)="eliminarRuteroOrden()">Eliminar Documentos</ion-button>
+    </div>
+    <form id="file-upload-form" class="uploader">
+      <input id="file-upload" type="file" (change)="fileOrdenUpload($event)" name="fileUpload" accept=".xls, .xlsx" />
+    </form>
+  </ion-card-content>
+</ion-card>
+
+<div>
+  <pre>
+    
+  </pre>
+</div>

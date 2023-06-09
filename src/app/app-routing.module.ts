@@ -11,6 +11,35 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
+  {
+    path: 'sign-up',
+    loadChildren: () => import('./sign-up/sign-up.module').then( m => m.SignUpPageModule)
+  },
+  {
+    path: 'resetpassword',
+    loadChildren: () => import('./resetpassword/resetpassword.module').then( m => m.ResetpasswordPageModule)
+  },
+  {
+    path: 'bulk-load',
+    loadChildren: () => import('./bulk-load/bulk-load.module').then( m => m.BulkLoadPageModule)
+  },
+  {
+    path: 'seller',
+    loadChildren: () => import('./seller/seller.module').then( m => m.SellerPageModule)
+  },
+  {
+    path: 'hour/:codigo',
+    loadChildren: () => import('./hour/hour.module').then( m => m.HourPageModule)
+  },
+  {
+    path: 'rutero-dia/:dia',
+    loadChildren: () => import('./rutero-dia/rutero-dia.module').then( m => m.RuteroDiaPageModule)
+  },
+  {
+    path: 'rutero',
+    loadChildren: () => import('./rutero/rutero.module').then( m => m.RuteroPageModule)
+  },
+
 ];
 
 @NgModule({

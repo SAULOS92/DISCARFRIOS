@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+      Bienvenido
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label>Ingresa el codigo de la zona del vendedor: </ion-label><BR></ion-item>
+  <ion-item>
+    <ion-input type="number" [(ngModel)]="number"></ion-input>
+  </ion-item>
+
+  <ion-button expand="block" (click)="saveNumber()">Guardar</ion-button>
+</ion-content>
