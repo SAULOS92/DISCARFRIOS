@@ -5,6 +5,7 @@ import { CargaRuteroService } from "../servicios/firebase/carga-rutero.service";
 import { RuteroOrdenService } from "../servicios/firebase/rutero-orden.service";
 import { ToastController } from '@ionic/angular';
 import { LoadingController } from '@ionic/angular';
+import { take } from 'rxjs/operators';
 import * as FileSaver from 'file-saver';
 
 @Component({
@@ -78,13 +79,17 @@ export class BulkLoadPage implements OnInit {
   }
 
   exportExcel() {
-    this.ruteroService.getRuteroCompleto().subscribe((res) => {
+    this.ruteroService.getRuteroCompleto().pipe(take(1)).subscribe((res) => {
       console.log(res);
-      const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(res);
-      const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+      if (Array.isArray(res)) {
+        const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(res);
+        const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
   
-      const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-      this.saveExcelFile(excelBuffer, 'rutero.xlsx');
+        const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+        this.saveExcelFile(excelBuffer, 'rutero.xlsx');
+      } else {
+        console.error('El resultado no es un array válido.');
+      }
     });
   }
   

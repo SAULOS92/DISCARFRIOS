@@ -57,8 +57,10 @@ export class HomePage {
               const number = localStorage.getItem('number');
               console.log(number);
               if (number === 'null') {
+                this.dismissLoading();
                 this.router.navigate(['seller']);
               } else {
+                this.dismissLoading();
                 this.router.navigate(['rutero']);
               }
               
@@ -68,8 +70,8 @@ export class HomePage {
             } else {//usuario no logueado
               localStorage.setItem('user', 'null');
               localStorage.setItem('number', 'null');
-            }
-            this.dismissLoading()
+              this.dismissLoading();
+            }            
           });
     }//fin de funcion verificar usuario
     async presentLoading() {

@@ -35,17 +35,21 @@ export class HourPage implements OnInit {
 
   async showErrorToast(error: any) {
     const toast = await this.toastController.create({
-      message: 'Error al actualizar el documento',
-      duration: 3000,
+      message: error,
+      duration: 4000,
       color: 'danger',
       position: 'top'
     });
-    toast.present();
-    console.error('Error al actualizar el documento:', error);
+    toast.present();    
   }
   onSubmit() {
     
     if(this.isContinuous){
+      if (!this.openingTime || !this.closingTime || (this.telefono === "" || this.telefono === undefined) ||
+      (this.telefono2 === "" || this.telefono2 === undefined)){
+        this.showErrorToast('Por favor complete todos los campos');
+      return;
+      }else{
       const item = {
         codigo: this.codigo, // Reemplaza con el código correcto del documento
         openingTime: this.openingTime,
@@ -55,6 +59,7 @@ export class HourPage implements OnInit {
         Telefono: this.telefono,
         Telefono2: this.telefono2
       };
+      this.updateItemInLocalStorage(this.codigo);
       this.cargaRuteroService.update(item)
       .then(() => {
         this.router.navigate(['rutero']);
@@ -62,8 +67,16 @@ export class HourPage implements OnInit {
       .catch(error => {
         this.showErrorToast(error);
       });
+    }
+    
   }
   else{
+    if (!this.morningOpeningTime || !this.morningClosingTime || !this.afternoonOpeningTime || !this.afternoonClosingTime || (this.telefono === "" || this.telefono === undefined) ||
+    (this.telefono2 === "" || this.telefono2 === undefined))
+    {
+      this.showErrorToast('Por favor complete todos los campos');
+      return;
+    }else{
     const item = {
       codigo: this.codigo, // Reemplaza con el código correcto del documento
       isContinuous: this.isContinuous,
@@ -75,6 +88,7 @@ export class HourPage implements OnInit {
       Telefono: this.telefono,
       Telefono2: this.telefono2
     };
+    this.updateItemInLocalStorage(this.codigo);
     this.cargaRuteroService.update(item)
       .then(() => {
         this.router.navigate(['rutero-dia']);
@@ -82,13 +96,26 @@ export class HourPage implements OnInit {
       .catch(error => {
         this.showErrorToast(error);
       });
+      
   }
+}
   }
-
-    
-  
-
-  
+  updateItemInLocalStorage(codigo: string) {
+    const dataString = localStorage.getItem('ruteroCache');
+    console.log(this.codigo);
+    if (dataString) {
+      const data = JSON.parse(dataString);
+      const updatedData = data.map((item: any) => {
+        if (item.Codigo === codigo) {
+          return { ...item, update: 'si' };
+        } else {
+          return item;
+        }
+      });
+      localStorage.setItem('ruteroCache', JSON.stringify(updatedData));
+      console.log(updatedData);
+    }
+  } 
   
 
 }

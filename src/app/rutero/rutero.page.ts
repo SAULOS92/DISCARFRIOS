@@ -6,6 +6,7 @@ import { ActionSheetController } from '@ionic/angular';
 
 
 
+
 @Component({
   selector: 'app-rutero',
   templateUrl: './rutero.page.html',
@@ -20,6 +21,8 @@ export class RuteroPage implements OnInit {
   salir(){
     localStorage.setItem('user', 'null');
     localStorage.setItem('number', 'null');
+    localStorage.setItem('ruteroCache', 'null');
+    localStorage.setItem('ruteroCacheTimestamp', 'null');
     this.router.navigate(['home']);
   }
 
