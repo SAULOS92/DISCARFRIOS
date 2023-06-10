@@ -44,7 +44,7 @@ export class HourPage implements OnInit {
   }
   onSubmit() {
     
-    if(this.isContinuous){
+if(this.isContinuous){
       if (!this.openingTime || !this.closingTime || (this.telefono === "" || this.telefono === undefined) ||
       (this.telefono2 === "" || this.telefono2 === undefined)){
         this.showErrorToast('Por favor complete todos los campos');
@@ -79,7 +79,6 @@ export class HourPage implements OnInit {
     }else{
     const item = {
       codigo: this.codigo, // Reemplaza con el código correcto del documento
-      isContinuous: this.isContinuous,
       morningOpeningTime: this.morningOpeningTime,
       morningClosingTime: this.morningClosingTime,
       afternoonOpeningTime: this.afternoonOpeningTime,
@@ -90,11 +89,13 @@ export class HourPage implements OnInit {
     };
     this.updateItemInLocalStorage(this.codigo);
     this.cargaRuteroService.update(item)
-      .then(() => {
-        this.router.navigate(['rutero-dia']);
+      .then((res) => {
+        console.log(res);
+        this.router.navigate(['rutero']);
       })
       .catch(error => {
         this.showErrorToast(error);
+        console.log(error);
       });
       
   }
