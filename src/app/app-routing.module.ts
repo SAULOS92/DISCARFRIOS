@@ -38,7 +38,11 @@ const routes: Routes = [
   {
     path: 'rutero',
     loadChildren: () => import('./rutero/rutero.module').then( m => m.RuteroPageModule)
+  },  {
+    path: 'busqueda-rutero',
+    loadChildren: () => import('./busqueda-rutero/busqueda-rutero.module').then( m => m.BusquedaRuteroPageModule)
   },
+
 
 ];
 
