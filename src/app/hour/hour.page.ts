@@ -50,8 +50,7 @@ if(this.isContinuous){
         this.showErrorToast('Por favor complete todos los campos');
       return;
       }else{
-      const item = {
-        codigo: this.codigo, // Reemplaza con el código correcto del documento
+      const item = {        
         openingTime: this.openingTime,
         closingTime: this.closingTime,
         isContinuous: this.isContinuous,
@@ -59,6 +58,10 @@ if(this.isContinuous){
         Telefono: this.telefono,
         Telefono2: this.telefono2
       };
+      if (!this.validateTimeRange(this.openingTime, this.closingTime)) {
+        this.showErrorToast('La hora de cierre debe ser superior a la hora de apertura.');
+        return;
+      }
       this.updateItemInLocalStorage(this.codigo);
       this.cargaRuteroService.update(item)
       .then(() => {
@@ -87,6 +90,14 @@ if(this.isContinuous){
       Telefono: this.telefono,
       Telefono2: this.telefono2
     };
+    if (
+      !this.validateTimeRange(this.morningOpeningTime, this.morningClosingTime) ||
+      !this.validateTimeRange(this.afternoonOpeningTime, this.afternoonClosingTime) ||
+      !this.validateTimeRange(this.morningClosingTime, this.afternoonOpeningTime)
+    ) {
+      this.showErrorToast('Por favor ingrese un rango de horas válido.');
+      return;
+    }
     this.updateItemInLocalStorage(this.codigo);
     this.cargaRuteroService.update(item)
       .then((res) => {
@@ -116,6 +127,12 @@ if(this.isContinuous){
       localStorage.setItem('ruteroCache', JSON.stringify(updatedData));
       console.log(updatedData);
     }
+  }
+  validateTimeRange(startTime: string, endTime: string): boolean {
+    const start = new Date(`1970-01-01T${startTime}`);
+    const end = new Date(`1970-01-01T${endTime}`);
+  
+    return start < end;
   } 
   
 
