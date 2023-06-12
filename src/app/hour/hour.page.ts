@@ -50,7 +50,8 @@ if(this.isContinuous){
         this.showErrorToast('Por favor complete todos los campos');
       return;
       }else{
-      const item = {        
+      const item = {
+        codigo: this.codigo, // Reemplaza con el código correcto del documento        
         openingTime: this.openingTime,
         closingTime: this.closingTime,
         isContinuous: this.isContinuous,
