@@ -47,8 +47,8 @@ export class RuteroOrdenService {
   }
   
 
-  getRutero(asesor: string) {
-    return this.bd.collection('Rutero', ref => ref.where('VD', '==', asesor + ' ').orderBy('Dias', 'desc')).valueChanges();
+  getRutero(asesor: any) {
+    return this.bd.collection('Rutero_Orden', ref => ref.where('VD', '==', asesor + ' ')).valueChanges();
   } 
 
   eliminarDocumentos(): Promise<void> {
@@ -90,8 +90,15 @@ export class RuteroOrdenService {
     return chunkedArray;
   }
 
-  update(item: any) {
-    return this.itemsCollection.doc(item.codigo).update(item);
+  update(items: any[]) {
+    const batch = this.bd.firestore.batch();
+  
+    items.forEach((item) => {
+      const docRef = this.itemsCollection.doc(item.Codigo).ref;
+      batch.update(docRef, item);
+    });
+  
+    return batch.commit();
   }
 
   getRuteroCompleto() {

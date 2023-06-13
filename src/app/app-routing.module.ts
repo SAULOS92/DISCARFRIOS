@@ -38,9 +38,14 @@ const routes: Routes = [
   {
     path: 'rutero',
     loadChildren: () => import('./rutero/rutero.module').then( m => m.RuteroPageModule)
-  },  {
+  },
+  {
     path: 'busqueda-rutero',
     loadChildren: () => import('./busqueda-rutero/busqueda-rutero.module').then( m => m.BusquedaRuteroPageModule)
+  },
+  {
+    path: 'rutero-orden-dia/:dia',
+    loadChildren: () => import('./rutero-orden-dia/rutero-orden-dia.module').then( m => m.RuteroOrdenDiaPageModule)
   },
 
 

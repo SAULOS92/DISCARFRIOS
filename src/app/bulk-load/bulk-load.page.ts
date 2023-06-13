@@ -149,14 +149,19 @@ export class BulkLoadPage implements OnInit {
     });
   }
 
-  exportExcelOrden() {
-    this.ruteroOrdenService.getRuteroCompleto().subscribe((res) => {
-      console.log(res);
-      const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(res);
-      const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
   
-      const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-      this.saveExcelFileOrden(excelBuffer, 'rutero.xlsx');
+  exportExcelOrden() {
+    this.ruteroOrdenService.getRuteroCompleto().pipe(take(1)).subscribe((res) => {
+      console.log(res);
+      if (Array.isArray(res)) {
+        const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(res);
+        const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+  
+        const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+        this.saveExcelFile(excelBuffer, 'rutero.xlsx');
+      } else {
+        console.error('El resultado no es un array válido.');
+      }
     });
   }
   

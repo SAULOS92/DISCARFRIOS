@@ -23,6 +23,8 @@ export class RuteroPage implements OnInit {
     localStorage.setItem('number', 'null');
     localStorage.setItem('ruteroCache', 'null');
     localStorage.setItem('ruteroCacheTimestamp', 'null');
+    localStorage.setItem('ruteroCacheOrden', 'null');
+    localStorage.setItem('ruteroCacheOrdenTimestamp', 'null');    
     this.router.navigate(['home']);
   }
 

@@ -33,6 +33,7 @@ export class RuteroDiaPage implements OnInit {
       this.items = JSON.parse(cachedData);
       this.filterItemsByDay(dia);
       this.filterItemsByUpdate();
+      this.sinresult = this.items.length === 0;
       return;
     }      
   }
