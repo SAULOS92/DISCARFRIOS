@@ -52,7 +52,6 @@ export class RuteroOrdenDiaPage implements OnInit {
     this.items = res;
     this.filterItemsByDay(dia);
     this.filterItemsByUpdate();
-    console.log(this.items);
     this.sinresult = this.items.length === 0;
 
     // Actualizar la caché con los nuevos datos y la marca de tiempo actual

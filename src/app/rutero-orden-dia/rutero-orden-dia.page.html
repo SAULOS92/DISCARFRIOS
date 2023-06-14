@@ -21,12 +21,9 @@
       <ion-reorder-group [disabled]="false" (ionItemReorder)="reorderItems($event)">      
       <ion-item *ngFor="let item of items" style="width: 100%">  
           <ion-reorder slot="end"></ion-reorder>  
-          <ion-card style="width: 95%">
+          <ion-card style="width: 100%">
           <ion-card-content>
-          <strong><h5 style="font-size: smaller">{{item.Codigo}} - {{item.Cliente}}</h5>
-          <h3>{{item.RZ}}</h3>        
-          <h3>{{item.Direccion}} - {{item.Barrio}}</h3></strong>
-          <h3>{{item.OrdenDia}}</h3>
+          <strong><h5 style="font-size: smaller">{{item.Cliente}} - {{item.RZ}} - {{item.Direccion}} - {{item.Barrio}}</h5></strong>
           </ion-card-content>   
           </ion-card>
       </ion-item>

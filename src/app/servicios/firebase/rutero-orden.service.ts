@@ -30,7 +30,7 @@ export class RuteroOrdenService {
       return new Promise((resolve, reject) => {
         const batchFirestore = this.bd.firestore.batch();
         batch.forEach((item: any) => {
-          batchFirestore.set(this.itemsCollection.doc(item.Codigo).ref, item);
+          batchFirestore.set(this.itemsCollection.doc().ref, item);
         });
         batchFirestore.commit()
           .then(() => {
@@ -48,8 +48,16 @@ export class RuteroOrdenService {
   
 
   getRutero(asesor: any) {
-    return this.bd.collection('Rutero_Orden', ref => ref.where('VD', '==', asesor + ' ')).valueChanges();
-  } 
+    return this.bd.collection('Rutero_Orden', ref => ref.where('VD', '==', asesor + ' ')).snapshotChanges().pipe(
+      map(actions => {
+        return actions.map(action => {
+          const data = action.payload.doc.data();
+          const id = action.payload.doc.id;
+          return { id, ...(data as object) }; // Asegúrate de realizar una conversión a objeto aquí
+        });
+      })
+    );
+  }
 
   eliminarDocumentos(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
@@ -94,7 +102,7 @@ export class RuteroOrdenService {
     const batch = this.bd.firestore.batch();
   
     items.forEach((item) => {
-      const docRef = this.itemsCollection.doc(item.Codigo).ref;
+      const docRef = this.itemsCollection.doc(item.id).ref;
       batch.update(docRef, item);
     });
   
