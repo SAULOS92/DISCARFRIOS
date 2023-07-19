@@ -49,8 +49,16 @@ export class CargaRuteroService {
   
 
   getRutero(asesor: any) {
-    return this.bd.collection('Rutero', ref => ref.where('VD', '==', asesor + ' ').orderBy('Dias', 'desc')).valueChanges();
-  } 
+    return this.bd.collection('Rutero', ref => ref.where('VD', '==', asesor)).snapshotChanges().pipe(
+      map(actions => {
+        return actions.map(action => {
+          const data = action.payload.doc.data();
+          const id = action.payload.doc.id;
+          return { id, ...(data as object) }; // Asegúrate de realizar una conversión a objeto aquí
+        });
+      })
+    );
+  }
 
   eliminarDocumentos(): Promise<void> {
     return new Promise<void>((resolve, reject) => {

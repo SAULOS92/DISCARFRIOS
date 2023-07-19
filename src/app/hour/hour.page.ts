@@ -11,13 +11,13 @@ import { ToastController } from '@ionic/angular';
 })
 export class HourPage implements OnInit {
   codigo: string = '';
-  openingTime: string = '';
-  closingTime: string = '';
+  openingTime: string = '00:00';
+  closingTime: string = '00:01';
   isContinuous: boolean = false;
-  morningOpeningTime: string = '';
-  morningClosingTime: string = '';
-  afternoonOpeningTime: string = '';
-  afternoonClosingTime: string = '';
+  morningOpeningTime: string = '00:00';
+  morningClosingTime: string = '00:01';
+  afternoonOpeningTime: string = '00:02';
+  afternoonClosingTime: string = '00:03';
   telefono: String= '';
   telefono2: String = '';
   sinTelefono: boolean = false;
@@ -47,9 +47,7 @@ export class HourPage implements OnInit {
     console.log(this.telefono);
     console.log(this.telefono.length);
 if(this.isContinuous){
-      if (!this.openingTime ||
-        !this.closingTime ||
-        !this.telefono ||
+      if (!this.telefono ||
         !this.telefono2 || this.telefono.length <10 || this.telefono2.length <10)
         {
         this.showErrorToast('Por favor complete todos los campos y asegúrese de que los campos de teléfono tengan al menos 10 dígitos.');
@@ -80,8 +78,7 @@ if(this.isContinuous){
     
   }
   else{
-    if (!this.morningOpeningTime || !this.morningClosingTime || !this.afternoonOpeningTime || !this.afternoonClosingTime
-      ||!this.telefono || !this.telefono2 || this.telefono.length <10 || this.telefono2.length <10 )
+    if (!this.telefono || !this.telefono2 || this.telefono.length <10 || this.telefono2.length <10 )
     {
       this.showErrorToast('Por favor complete todos los campos y asegúrese de que los campos de teléfono tengan al menos 10 dígitos.');
       return;

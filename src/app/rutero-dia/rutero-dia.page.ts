@@ -41,12 +41,11 @@ export class RuteroDiaPage implements OnInit {
   this.presentLoading();
 
   // Realizar la llamada al servicio si no hay datos en caché o si la caché ha expirado
-  this.ruteroSubscription = this.ruteroService.getRutero(number).subscribe((res) => {
-    console.log(res);
+  if (number !== null) {
+  this.ruteroSubscription = this.ruteroService.getRutero(parseInt(number)).subscribe((res) => {
     this.items = res;
     this.filterItemsByDay(dia);
-    this.filterItemsByUpdate();
-    console.log(this.items);
+    this.filterItemsByUpdate();    
     this.sinresult = this.items.length === 0;
 
     // Actualizar la caché con los nuevos datos y la marca de tiempo actual
@@ -55,7 +54,7 @@ export class RuteroDiaPage implements OnInit {
 
     this.dismissLoading();
   });
-  }
+  }}
   async presentLoading() {
     const loading = await this.loadingController.create({
       message: 'Cargando...', // Puedes personalizar el mensaje del loader

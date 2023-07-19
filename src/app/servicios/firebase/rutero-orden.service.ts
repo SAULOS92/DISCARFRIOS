@@ -48,7 +48,7 @@ export class RuteroOrdenService {
   
 
   getRutero(asesor: any) {
-    return this.bd.collection('Rutero_Orden', ref => ref.where('VD', '==', asesor + ' ')).snapshotChanges().pipe(
+    return this.bd.collection('Rutero_Orden', ref => ref.where('VD', '==', asesor)).snapshotChanges().pipe(
       map(actions => {
         return actions.map(action => {
           const data = action.payload.doc.data();

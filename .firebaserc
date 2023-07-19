@@ -1,5 +1,12 @@
 {
   "projects": {
-    "default": "discarfrios-data"
-  }
+    "default": "pedimax-arm",
+    "vallecafe": "vallecafe-e3c4d",
+    "pedimaxarm": "pedimax-arm",
+    "pedimaxper": "pedimax-per",
+    "pedimaxman": "pedimax-man",
+    "discarfrios": "discarfrios-data"
+  },
+  "targets": {},
+  "etags": {}
 }

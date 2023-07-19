@@ -27,7 +27,6 @@ export class RuteroOrdenDiaPage implements OnInit {
 
   // Verificar si existe una entrada en caché y si la llamada se realizó hace menos de 24 horas
   const cachedData = localStorage.getItem('ruteroCacheOrden');
-  console.log(cachedData);
   const cachedTimestamp = localStorage.getItem('ruteroCacheOrdenTimestamp');
 
   if (cachedData && cachedTimestamp) {
@@ -37,8 +36,10 @@ export class RuteroOrdenDiaPage implements OnInit {
       // Utilizar los datos en caché
         this.items = JSON.parse(cachedData);          
         this.filterItemsByDay(dia);
-        this.filterItemsByUpdate();   
+        this.filterItemsByUpdate(); 
         this.sinresult = this.items.length === 0;
+  
+        
 
       return;
     }      
@@ -47,8 +48,9 @@ export class RuteroOrdenDiaPage implements OnInit {
   this.presentLoading();
 
   // Realizar la llamada al servicio si no hay datos en caché o si la caché ha expirado
-  this.ruteroSubscription = this.ruteroService.getRutero(number).subscribe((res) => {
-    console.log(res);
+  if (number !== null) {
+  this.ruteroSubscription = this.ruteroService.getRutero(parseInt(number)).subscribe((res) => {
+   
     this.items = res;
     this.filterItemsByDay(dia);
     this.filterItemsByUpdate();
@@ -60,7 +62,7 @@ export class RuteroOrdenDiaPage implements OnInit {
 
     this.dismissLoading();
   });
-  }
+  }}
   async presentLoading() {
     const loading = await this.loadingController.create({
       message: 'Cargando...', // Puedes personalizar el mensaje del loader
@@ -87,9 +89,28 @@ export class RuteroOrdenDiaPage implements OnInit {
   reorderItems(ev: any) {
     const itemToMove = this.items[ev.detail.from];
     this.items.splice(ev.detail.from, 1);
-    this.items.splice(ev.detail.to, 0, itemToMove);
-    console.log(this.items);
-    ev.detail.complete();  
+    this.items.splice(ev.detail.to, 0, itemToMove);    
+    ev.detail.complete();
+    // Actualizar la propiedad OrdenDia con el nuevo orden
+  this.items.forEach((item: any, index: number) => {
+    item.OrdenDia = index + 1; // El índice + 1 se usa para asignar números del 1 en adelante.
+  });
+
+  // Obtener los datos almacenados en caché
+  const cachedData = localStorage.getItem('ruteroCacheOrden');
+  const cachedItems = JSON.parse(cachedData || '[]');
+
+  // Actualizar los elementos correspondientes en la caché con los datos reordenados
+  this.items.forEach((item: any) => {
+    const index = cachedItems.findIndex((cachedItem: any) => cachedItem.id === item.id);
+    if (index !== -1) {
+      cachedItems[index].OrdenDia = item.OrdenDia;
+    }
+  });
+
+  // Almacenar los datos actualizados en ruteroCacheOrden
+  localStorage.setItem('ruteroCacheOrden', JSON.stringify(cachedItems));
+ 
     
   }
   async saveChanges() {
@@ -111,8 +132,21 @@ export class RuteroOrdenDiaPage implements OnInit {
       updatedItems.push(updatedItem);
       
     });
-
-    localStorage.setItem('ruteroCacheOrden', JSON.stringify(updatedItems));
+    // Obtener los datos almacenados en caché
+    const cachedData = localStorage.getItem('ruteroCacheOrden');
+    const cachedItems = JSON.parse(cachedData || '[]');
+  
+    // Actualizar los elementos correspondientes en la caché con los datos reordenados
+    this.items.forEach((item: any) => {
+      const index = cachedItems.findIndex((cachedItem: any) => cachedItem.id === item.id);
+      if (index !== -1) {
+        cachedItems[index].OrdenDia = item.OrdenDia;
+        cachedItems[index].update = 'si';
+      }
+    });
+  
+    // Almacenar los datos actualizados en ruteroCacheOrden
+    localStorage.setItem('ruteroCacheOrden', JSON.stringify(cachedItems));
     this.ruteroService.update(updatedItems);
     console.log('Datos actualizados en Firebase');
   } catch (error) {
